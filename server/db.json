@@ -1,0 +1,60 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "name": "Alice",
+      "password": "1111",
+      "age": 30,
+      "email": "alice@example.com",
+      "city": "New York"
+    },
+    {
+      "id": "2",
+      "name": "Bob",
+      "password": "1111",
+      "age": 25,
+      "email": "bob@example.com",
+      "city": "Los Angeles"
+    },
+    {
+      "id": "3",
+      "name": "Charlie",
+      "password": "1111",
+      "age": 35,
+      "email": "charlie@example.com",
+      "city": "Chicago"
+    },
+    {
+      "id": "4",
+      "name": "David",
+      "password": "1111",
+      "age": 28,
+      "email": "david@example.com",
+      "city": "Houston"
+    },
+    {
+      "id": "5",
+      "name": "Eve",
+      "password": "1111",
+      "age": 22,
+      "email": "eve@example.com",
+      "city": "Phoenix"
+    },
+    {
+      "id": "6",
+      "name": "Jona",
+      "password": "1111",
+      "age": 40,
+      "email": "jona@example.com",
+      "city": "Philadelphia"
+    },
+    {
+      "id": "7",
+      "name": "Kim",
+      "password": "1111",
+      "age": 31,
+      "email": "kim@example.com",
+      "city": "San Antonio"
+    }
+  ]
+}
