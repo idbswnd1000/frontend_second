@@ -9,7 +9,7 @@ import EmployeeRegister from '../no2_components/employee/EmployeeRegister'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
 //import { EmployeeContext } from '../no0_context/EmployeeContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEmp, remove, setMode } from '../no3_store/slices/employeeSlice';
+import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
 
 const EmployeePage = () => {
   //const {state, dispatch} = useContext(EmployeeContext);
@@ -28,7 +28,7 @@ const dispatch=useDispatch();
       alert("삭제할 데이터를 선택하세요");
       return;
     }
-    dispatch(remove())
+    dispatch(employeeDeleteSlice(selectedId))
   }
 
   return (

@@ -1,12 +1,17 @@
 // TodoList.jsx
 
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import TodoListChild from './TodoListChild'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { todoAllGetSlice } from '../../no3_store/slices/todoSlice'
 
 const TodoList = () => {
   const {todoList} = useSelector(state=>state.todo);
+  const dispatch = useDispatch();
+    useEffect (()=>{
+      dispatch(todoAllGetSlice())
+    },[dispatch])  
   return (
     <Container>
       {

@@ -1,28 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { userTotalGetApi } from "../apis/user.api"
 
-export const fetchUserTotalGet = createAsyncThunk(
-    "fetchUserTotalGet",
+export const UserTotalGetSlice = createAsyncThunk(
+    "UserTotalGetSlice",
     async(_, thunkApi)=>{
         try{
-            const payload = await userTotalGetApi()
-            return payload
+            return await userTotalGetApi()
         }catch(error){
             return thunkApi.rejectWithValue(error.message)
         }
     }
 )
 
-const initialUsers = [
-    { id: 1, username: "john", password: "1111" },
-    { id: 2, username: "peter", password: "1111" },
-    { id: 3, username: "susan", password: "1111" },
-    { id: 4, username: "sue", password: "1111" },
-]
 const initialState = {
-    users: initialUsers,
+    users: {},
     username: '',
-    isLogin: false
+    isLogin: false,
+    loading: false,
+    error: null
 }
 
 const userSlice = createSlice({
@@ -50,8 +45,17 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchUserTotalGet.fulfilled,(state, action) => {
+            .addCase(UserTotalGetSlice.pending,(state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(UserTotalGetSlice.fulfilled,(state, action) => {
                 state.users = action.payload
+                state.loading = false
+            })
+            .addCase(UserTotalGetSlice.rejected,(state, action) => {
+                state.loading = false
+                state.error = action.payload
             })
     }
 })

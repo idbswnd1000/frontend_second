@@ -8,24 +8,25 @@ import {
 } from "react-icons/md"
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { update, remove, toggle } from '../../no3_store/slices/todoSlice'
+import {todoDeleteSlice, todoPutSlice, todoToggleSlice } from '../../no3_store/slices/todoSlice'
 
 
 const TodoListChild = ({ item}) => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(item.subject)
 
   const handleUpdate = () => {
-    dispatch(update({id:item.id, value}))
+    dispatch(todoPutSlice({... item, subject: value}))
     setEditing(false)
   }
 
   return (
     <Container>
 
-      <CheckBoxArea onClick={()=>dispatch(toggle(item.id))}>
+      {/* <CheckBoxArea onClick={()=>dispatch(todoPutSlice({... item,  checked: !item.checked}))}> */}
+      <CheckBoxArea onClick={()=>dispatch(todoToggleSlice(item.id))}>      
         {
           item.checked
             ? <MdCheckBox />
@@ -59,7 +60,7 @@ const TodoListChild = ({ item}) => {
         }
       </ContentArea>
 
-      <DeleteButton onClick={()=>dispatch(remove(item.id))}>
+      <DeleteButton onClick={()=>dispatch(todoDeleteSlice(item.id))}>
         <MdRemoveCircleOutline />
       </DeleteButton>
 

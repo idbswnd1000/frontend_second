@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { update } from '../../no3_store/slices/employeeSlice';
+import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
 
 const EmployeeUpdate = () => {
     const {emp} = useSelector(state=>state.emp)
@@ -24,7 +24,7 @@ const EmployeeUpdate = () => {
 
         event.preventDefault();
 
-       dispatch(update(newEmp))
+       dispatch(employeePutSlice(newEmp))
     }
 
     return (

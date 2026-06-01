@@ -3,7 +3,7 @@
 import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { register } from '../../no3_store/slices/employeeSlice';
+import { employeePostSlice } from '../../no3_store/slices/employeeSlice';
 
 
 
@@ -28,7 +28,7 @@ const EmployeeRegister = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const newId = Date.now().toString();
-        dispatch(register({newId, emp}))
+        dispatch(employeePostSlice(emp))
         setEmp(initialEmp)
     }
 

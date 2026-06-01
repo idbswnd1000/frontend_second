@@ -7,38 +7,38 @@ export const userTotalGetApi = async() => {
         const response = await axios.get("http://localhost:3001/user")
         return response.data
     }catch(error){
-        return error
+        return error.message
     }
 }
-export const userGetApi = async() => {
+export const userGetApi = async(id) => {
     try{
         const response = await axios.get("http://localhost:3001/user/1")
         return response.data
     }catch(error){
-        return error
+        return error.message
     }
 }
 export const userPostApi = async(dataObj) => {
     try{
-        const response = await axios.post("http://localhost:3001/user",dataObj)
+        const response = await axios.post(`http://localhost:3001/user${id}`,dataObj)
         return response.data
     }catch(error){
-        return error
+        return error.message
     }
 }
 export const userPutApi = async(dataObj) => {
     try{
-        const response = await axios.put("http://localhost:3001/user/2",dataObj)
+        const response = await axios.put(`http://localhost:3001/user${dataObj.id}`,dataObj)
         return response.data
     }catch(error){
-        return error
+        return error.message
     }
 }
-export const userDeleteApi = async() => {
+export const userDeleteApi = async(id) => {
     try{
-        const response = await axios.delete("http://localhost:3001/user/2")
+        const response = await axios.delete(`http://localhost:3001/user${id}`)
         return response.data
     }catch(error){
-        return error
+        return error.message
     }
 }
