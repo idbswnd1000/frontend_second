@@ -25,8 +25,8 @@ const TodoListChild = ({ item}) => {
   return (
     <Container>
 
-      {/* <CheckBoxArea onClick={()=>dispatch(todoPutSlice({... item,  checked: !item.checked}))}> */}
-      <CheckBoxArea onClick={()=>dispatch(todoToggleSlice(item.id))}>      
+      <CheckBoxArea onClick={()=>dispatch(todoPutSlice({... item,  checked: !item.checked}))}>
+      {/* <CheckBoxArea onClick={()=>dispatch(todoToggleSlice(item.id))}>       */}
         {
           item.checked
             ? <MdCheckBox />

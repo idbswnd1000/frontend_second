@@ -11,7 +11,7 @@ const TodoList = () => {
   const dispatch = useDispatch();
     useEffect (()=>{
       dispatch(todoAllGetSlice())
-    },[dispatch])  
+    },[dispatch, todoList])  
   return (
     <Container>
       {
