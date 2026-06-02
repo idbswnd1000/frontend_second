@@ -32,8 +32,8 @@ export const employeePutApi = async (dataObj) => {
 
 export const employeeDeleteApi = async (id) => {
     try{
-        const response = await axios.delete(`http://localhost:3001/employees/${id}`)
-        return response.data
+        await axios.delete(`http://localhost:3001/employees/${id}`)
+        return id
     }
     catch(error){
         return error

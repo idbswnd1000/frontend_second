@@ -16,11 +16,7 @@ const initialObj = {
 
 const initialState = {
     todoList: [],
-    todoObj: {
-        id: "",
-        subject: "",
-        checked: false
-    },
+    todoObj: initialObj,
     loading: false,
     error: null
 }

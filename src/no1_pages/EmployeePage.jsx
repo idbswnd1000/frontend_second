@@ -1,34 +1,39 @@
 // EmployeePage.jsx
 
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
-
 import EmployeeList from '../no2_components/employee/EmployeeList'
 import EmployeeTable from '../no2_components/employee/EmployeeTable'
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
 //import { EmployeeContext } from '../no0_context/EmployeeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
-
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
+import {
+  useAllGetEmployee,
+  useDeleteEmployee
+} from "../../src/no3_store/hooks/useEmployee"
 const EmployeePage = () => {
+  const [selectedId, setSelectedId] = useState(1);
   //const {state, dispatch} = useContext(EmployeeContext);
-  const {selectedId, mode, empTable} = useSelector(state=>state.emp);
-const dispatch=useDispatch();
+  // const { selectedId, mode, empTable } = useSelector(state => state.emp);
+  // const dispatch = useDispatch();
 
-  useEffect(()=>{
-    const newEmp = empTable.filter(item => item.id === selectedId)[0]
-    selectedId &&
-    dispatch(setEmp(newEmp))
-  }, [selectedId, empTable])
+  // useEffect(() => {
+  //   const newEmp = empTable.filter(item => item.id === selectedId)[0]
+  //   selectedId &&
+  //     dispatch(setEmp(newEmp))
+  // }, [selectedId, empTable])
+
 
   const handleDelete = () => {
 
-    if(!selectedId) {
-      alert("삭제할 데이터를 선택하세요");
-      return;
-    }
-    dispatch(employeeDeleteSlice(selectedId))
+    // if (!selectedId) {
+    //   alert("삭제할 데이터를 선택하세요");
+    //   return;
+    // }
+    useDeleteEmployee(id)
+    alert("회원 정보가 삭제되었습니다.")
   }
 
   return (
@@ -46,7 +51,7 @@ const dispatch=useDispatch();
             <SectionTitle>
               직원 목록
             </SectionTitle>
-            <EmployeeList/>
+            <EmployeeList />
           </Card>
 
         </LeftSection>
@@ -58,7 +63,7 @@ const dispatch=useDispatch();
               직원 정보
             </SectionTitle>
 
-            <EmployeeTable/>
+            <EmployeeTable />
           </Card>
 
           <Card>
@@ -86,26 +91,26 @@ const dispatch=useDispatch();
             {
               mode === "register" ?
 
-              <EmployeeRegister/>
-              :
-              mode === "update" ?
-              <EmployeeUpdate/>
-              :
-              mode === "delete" ?
+                <EmployeeRegister />
+                :
+                mode === "update" ?
+                  <EmployeeUpdate />
+                  :
+                  mode === "delete" ?
 
-              <DeleteBox>
-                <p>위 데이터를 삭제하시겠습니까?</p>
+                    <DeleteBox>
+                      <p>위 데이터를 삭제하시겠습니까?</p>
 
-                <DeleteConfirmButton
-                  onClick={handleDelete}
-                >
-                  삭제 확인
-                </DeleteConfirmButton>
-              </DeleteBox>
+                      <DeleteConfirmButton
+                        onClick={handleDelete}
+                      >
+                        삭제 확인
+                      </DeleteConfirmButton>
+                    </DeleteBox>
 
-              :
+                    :
 
-              null
+                    null
             }
 
           </Card>

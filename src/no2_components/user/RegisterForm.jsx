@@ -2,13 +2,16 @@ import React, { useContext, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { register } from '../../no3_store/slices/userSlice';
+import { userRegisterSlice } from '../../no3_store/slices/userSlice';
 
 const initialState = {
   id: "",
   username: "",
   password: "",
-  confirmPassword: ""
+  confirmPassword: "",
+  age: "",
+  email: "",
+  city: "",
 }
 
 const RegisterForm = () => {
@@ -31,8 +34,7 @@ const RegisterForm = () => {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    dispatch(register({id:Date.now(),user})
-    )
+    dispatch(userRegisterSlice(user))
 
     alert("회원가입 성공")
 
@@ -88,6 +90,42 @@ const RegisterForm = () => {
           />
         </InputGroup>
 
+        <InputGroup>
+          <Label>나이</Label>
+
+          <Input
+            type="number"
+            name="age"
+            value={user.age}
+            onChange={handleChange}
+            placeholder="나이 입력"
+          />
+        </InputGroup>
+
+        <InputGroup>
+          <Label>이메일</Label>
+
+          <Input
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            placeholder="이메일 입력"
+          />
+        </InputGroup>
+
+        <InputGroup>
+          <Label>도시</Label>
+
+          <Input
+            type="text"
+            name="city"
+            value={user.city}
+            onChange={handleChange}
+            placeholder="도시 입력"
+          />
+        </InputGroup>
+
         <RegisterButton>
           회원가입
         </RegisterButton>
@@ -96,8 +134,7 @@ const RegisterForm = () => {
 
         <LoginButton
           type="button"
-          onClick={() => navigate("/login")}
-        >
+          onClick={() => navigate("/login")}>
           이미 회원이신가요? 로그인
         </LoginButton>
 
