@@ -42,8 +42,8 @@ export const todoPutApi = async (dataObj) => {
 
 export const todoDeleteApi = async (id) => {
     try{
-        const response = await axios.delete(`http://localhost:3001/todos/${id}`)
-        return response.data
+        await axios.delete(`http://localhost:3001/todos/${id}`)
+        return id
     }
     catch(error){
         return error

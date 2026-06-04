@@ -64,15 +64,23 @@
       "age": "24",
       "email": "uchi@gmail.com",
       "city": "한양"
+    },
+    {
+      "id": "MR22EIxJMJ8",
+      "username": "이순신",
+      "password": "1111",
+      "age": "1592",
+      "email": "jeneral@joseon.com",
+      "city": "한양"
     }
   ],
   "employees": [
     {
       "id": "1",
-      "name": "John",
-      "email": "john@example.com",
-      "job": "frontend",
-      "pay": 600
+      "name": "Peter",
+      "email": "peter@example.com",
+      "job": "backend",
+      "pay": "400"
     },
     {
       "id": "2",
@@ -93,26 +101,14 @@
       "name": "전우치",
       "email": "uchi@gmail.com",
       "job": "도사",
-      "pay": "600"
-    },
-    {
-      "id": "6",
-      "name": "홍길동",
-      "email": "hong@gildong.joseon",
-      "job": "도사",
-      "pay": "600"
+      "pay": "500"
     }
   ],
   "todos": [
     {
-      "id": "1",
-      "subject": "HTML 공부",
-      "checked": false
-    },
-    {
       "id": "2",
       "subject": "CSS 공부",
-      "checked": true
+      "checked": false
     },
     {
       "id": "3",
@@ -123,6 +119,11 @@
       "id": "4",
       "subject": "Python 공부",
       "checked": true
+    },
+    {
+      "subject": "안녕",
+      "checked": false,
+      "id": "-GIYRAlhB0M"
     }
   ],
   "products": [

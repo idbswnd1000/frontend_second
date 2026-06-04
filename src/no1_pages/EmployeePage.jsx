@@ -1,39 +1,33 @@
 // EmployeePage.jsx
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import EmployeeList from '../no2_components/employee/EmployeeList'
 import EmployeeTable from '../no2_components/employee/EmployeeTable'
 import EmployeeRegister from '../no2_components/employee/EmployeeRegister'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
-//import { EmployeeContext } from '../no0_context/EmployeeContext';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { setEmp, setMode, employeeDeleteSlice } from '../no3_store/slices/employeeSlice';
 import {
   useAllGetEmployee,
   useDeleteEmployee
 } from "../../src/no3_store/hooks/useEmployee"
+
 const EmployeePage = () => {
-  const [selectedId, setSelectedId] = useState(1);
-  //const {state, dispatch} = useContext(EmployeeContext);
-  // const { selectedId, mode, empTable } = useSelector(state => state.emp);
-  // const dispatch = useDispatch();
+  const [selectedId, setSelectedId] = useState("1");
+  const deleteMutation = useDeleteEmployee()
+  const [mode, setMode] = useState("register")
 
-  // useEffect(() => {
-  //   const newEmp = empTable.filter(item => item.id === selectedId)[0]
-  //   selectedId &&
-  //     dispatch(setEmp(newEmp))
-  // }, [selectedId, empTable])
-
-
-  const handleDelete = () => {
-
-    // if (!selectedId) {
-    //   alert("삭제할 데이터를 선택하세요");
-    //   return;
-    // }
-    useDeleteEmployee(id)
-    alert("회원 정보가 삭제되었습니다.")
+  const handleDelete = async () => {
+    if (!selectedId) {
+      alert("삭제할 데이터를 선택하세요");
+      return;
+    }
+    try {
+      await deleteMutation.mutateAsync(selectedId)
+      alert("회원 정보가 삭제되었습니다.")
+      setSelectedId(null);
+    } catch (error) {
+      alert("직원 삭제 실패!")
+    }
   }
 
   return (
@@ -51,7 +45,10 @@ const EmployeePage = () => {
             <SectionTitle>
               직원 목록
             </SectionTitle>
-            <EmployeeList />
+            <EmployeeList
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+            />
           </Card>
 
         </LeftSection>
@@ -63,26 +60,28 @@ const EmployeePage = () => {
               직원 정보
             </SectionTitle>
 
-            <EmployeeTable />
+            <EmployeeTable
+              selectedId={selectedId}
+            />
           </Card>
 
           <Card>
 
             <ButtonGroup>
               <ActionButton
-                onClick={() => dispatch(setMode("register"))}
+                onClick={() => setMode("register")}
               >
                 등록
               </ActionButton>
 
               <ActionButton
-                onClick={() => dispatch(setMode("update"))}
+                onClick={() => setMode("update")}
               >
                 수정
               </ActionButton>
 
               <DeleteButton
-                onClick={() => dispatch(setMode("delete"))}
+                onClick={() => setMode("delete")}
               >
                 삭제
               </DeleteButton>
@@ -94,7 +93,9 @@ const EmployeePage = () => {
                 <EmployeeRegister />
                 :
                 mode === "update" ?
-                  <EmployeeUpdate />
+                  <EmployeeUpdate
+                    selectedId={selectedId}
+                  />
                   :
                   mode === "delete" ?
 

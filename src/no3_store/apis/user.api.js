@@ -14,17 +14,16 @@ export const userLoginApi = async (userObj) => {
     try {
         const response = await axios.get(`http://localhost:3001/user?username=${userObj.username}`)
         const users = response.data
-        if (users.length === 0) {
+        if (!users.length) {
             throw new Error("존재하지 않는 사용자입니다.")
         }
-        const user = users[0]
-        if (user.password !== userObj.password) {
+        const foundUser = users[0]
+        if (foundUser.password !== userObj.password) {
             throw new Error("비밀번호가 일치하지 않습니다.")
         }
-        console.log(users[0])
-        return users[0]
+        return foundUser
     } catch (error) {
-        throw error
+        throw new Error(error.message);
     }
 }
 

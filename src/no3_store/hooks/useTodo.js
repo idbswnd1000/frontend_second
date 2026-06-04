@@ -1,79 +1,79 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
-    employeeAllGetApi,
-    employeePostApi,
-    employeePutApi,
-    employeeDeleteApi,
-    employeeGetApi
-} from "../apis/employee.api"
+    todoAllGetApi,
+    todoDeleteApi,
+    todoGetApi,
+    todoPostApi,
+    todoPutApi
+} from "../apis/todo.api";
 
-export const useAllGetEmployee = () => {
+export const useAllGetTodo = () => {
     return useQuery({
-        queryKey: ["employees"],
-        queryFn: employeeAllGetApi
+        queryKey: ["todos"],
+        queryFn: todoAllGetApi
     })
 }
 
-export const useGetEmployee = (id) => {
+export const useGetTodo = (id) => {
     return useQuery({
-        queryKey: ["employees", id],
-        queryFn: () => employeeGetApi(id),
+        queryKey: ["todos", id],
+        queryFn: () => todoGetApi(id),
         enabled: !!id
     })
 }
 
-export const usePostRegisterEmployee = () => {
+export const usePostRegisterTodo = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeePostApi,
+        mutationFn: todoPostApi,
         onSuccess: (dataObj) => {
             queryClient.setQueryData(
-                ["employees"],
+                ["todos"],
                 (oldData = []) => [
                     ...oldData, dataObj
                 ]
             )
             // 캐시 제거, 데이터 다시 불러오기
             queryClient.invalidateQueries({
-                queryKey: ["employees", dataObj.id]
+                queryKey: ["todos", dataObj.id]
             })
         }
     })
 }
 
-export const usePutUpdateEmployee = () => {
+export const usePutUpdateTodo = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeePutApi,
+        mutationFn: todoPutApi,
         onSuccess: (dataObj) => {
             queryClient.setQueryData(
-                ["employees"],
-                (oldData = []) => oldData.map(item =>
+                ["todos"],
+                (old = []) => old.map(item =>
                     item.id === dataObj.id ?
                         dataObj : item
                 )
             );
             queryClient.invalidateQueries({
-                queryKey: ["employees", dataObj.id]
-        });
+                queryKey: ["todos", dataObj.id]
+            });
         }
     })
 }
 
-export const useDeleteEmployee = () => {
+export const useDeleteTodo = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: employeeDeleteApi,
+        mutationFn: todoDeleteApi,
         onSuccess: (id) => {
             queryClient.setQueryData(
-                ["employees"],
+                ["todos"],
                 (old = []) => old.filter(item =>
                     item.id !== id
                 )
             );
             queryClient.removeQueries({
-                queryKey: ["employees", id]
+                queryKey: ["todos", id]
             });
         }
     })

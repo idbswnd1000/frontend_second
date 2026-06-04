@@ -1,32 +1,40 @@
 // EmployeeUpdate.jsx
 
-import React, { useEffect, useState, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { employeePutSlice } from '../../no3_store/slices/employeeSlice';
+import {
+    useGetEmployee,
+    usePutUpdateEmployee
+} from '../../no3_store/hooks/useEmployee';
 
-const EmployeeUpdate = () => {
-    const {emp} = useSelector(state=>state.emp)
+
+
+const EmployeeUpdate = ({ selectedId }) => {
+    const { data: emp, isLoading, error } = useGetEmployee(selectedId)
     const [newEmp, setNewEmp] = useState(emp);
-    const dispatch = useDispatch();
+    const updateMutation = usePutUpdateEmployee()
     useEffect(() => {
         emp &&
-        setNewEmp(emp)
+            setNewEmp(emp)
     }, [emp])
     const handleChange = (event) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setNewEmp(prev => (
-            {...prev, [name]: value}
+            { ...prev, [name]: value }
         ))
     }
 
-    const handleSubmit = (event) => {
-
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-       dispatch(employeePutSlice(newEmp))
+        try {
+            await updateMutation.mutateAsync(newEmp);
+            alert("직언 정보가 수정되었습니다.")
+        } catch {
+            alert("직원 정보 수정 실패")
+        }
     }
-
+    if (isLoading) return <h3> loading...</h3>
+    if (error) return <h3>{error.message}</h3>
     return (
         <Form onSubmit={handleSubmit}>
 
@@ -40,6 +48,7 @@ const EmployeeUpdate = () => {
                     value={newEmp.name}
                     onChange={handleChange}
                     placeholder='이름'
+                    required
                 />
 
             </InputGroup>
@@ -54,6 +63,7 @@ const EmployeeUpdate = () => {
                     value={newEmp.email}
                     onChange={handleChange}
                     placeholder='이메일'
+                    required
                 />
 
             </InputGroup>
@@ -68,6 +78,7 @@ const EmployeeUpdate = () => {
                     value={newEmp.job}
                     onChange={handleChange}
                     placeholder='직업'
+                    required
                 />
 
             </InputGroup>
@@ -82,6 +93,7 @@ const EmployeeUpdate = () => {
                     value={newEmp.pay}
                     onChange={handleChange}
                     placeholder='급여'
+                    required
                 />
 
             </InputGroup>

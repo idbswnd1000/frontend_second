@@ -17,6 +17,17 @@ export const employeeAllGetSlice = createAsyncThunk(
     }
 )
 
+export const employeeGetSlice = createAsyncThunk(
+    "employeeAllGetSlice",
+    async (_, thunkApi) => {
+        try {
+            return await employeeGetApi();
+        } catch (error) {
+            return thunkApi.rejectWithValue(error.message)
+        }
+    }
+)
+
 export const employeePostSlice = createAsyncThunk(
     "employeePostSlice",
     async (dataObj, thunkApi) => {
@@ -66,12 +77,6 @@ const employeeSlice = createSlice({
     name: "employeeSlice",
     initialState,
     reducers: {
-        select: (state, action) => {
-            state.selectedId = action.payload
-        },
-        setEmp: (state, action) => {
-            state.emp = action.payload
-        },
         setMode: (state, action) => {
             state.mode = action.payload
         }

@@ -2,13 +2,15 @@
 
 import React, { useContext } from 'react'
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useGetEmployee } from '../../no3_store/hooks/useEmployee';
 
-const EmployeeTable = () => {
-  const {emp} = useSelector(state=>state.emp);
+const EmployeeTable = ({selectedId}) => {
+  const { data: emp, isLoading, error } = useGetEmployee(selectedId)
+  if(isLoading) return <h3> loading...</h3>
+  if(error) return <h3>{error.message}</h3>
+
   return (
     <Table>
-
       <tbody>
 
         {emp &&
@@ -21,7 +23,6 @@ const EmployeeTable = () => {
         }
 
       </tbody>
-
     </Table>
   )
 }

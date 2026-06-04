@@ -1,20 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { userLoginSlice } from '../../no3_store/slices/userSlice';
+import { useLoginUser } from '../../no3_store/hooks/useUser';
 
 const initialState = {
   username: "",
   password: ""
 }
 const LoginForm = () => {
-  const {users} = useSelector(state=>state.user);
-  const dispatch = useDispatch();
-
-  const [user, setUser] = useState(initialState);
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
+  const [user, setUser] = useState(initialState)
+  const loginMutation = useLoginUser()
   const handleChange = (event) => {
     const { name, value } = event.target;
     setUser(prev => ({
@@ -24,74 +20,74 @@ const LoginForm = () => {
   }
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
-  const result = await dispatch(userLoginSlice(user));
-  if (userLoginSlice.fulfilled.match(result)) {
-    alert("로그인 성공");
-    navigate("/");
-  } else {
-    alert(result.payload);
+    event.preventDefault();
+
+    if (user.username.trim() === "") {
+      alert("이름을 입력해 주세요");
+      return
+    }
+    if (user.password.trim() === "") {
+      alert("비밀번호를 입력해 주세요");
+      return
+    }
+    if (user.username.trim()) {
+      try {
+        await loginMutation.mutateAsync(user)
+        alert("로그인 성공")
+        navigate("/");
+        ;
+      }
+      catch {
+        alert("로그인 실패")
+      }
+    }
   }
-}
+    return (
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Logo>MySystem</Logo>
+          <Title>로그인</Title>
+          <Description>
+            계정에 로그인하여 서비스를 이용하세요.
+          </Description>
+          <InputGroup>
+            <Label>아이디</Label>
+            <Input
+              type="text"
+              name="username"
+              value={user.username}
+              onChange={handleChange}
+              placeholder="아이디 입력"
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>비밀번호</Label>
+            <Input
+              type="password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              placeholder="비밀번호 입력"
+            />
+          </InputGroup>
+          <LoginButton>
+            로그인
+          </LoginButton>
+          <Divider />
+          <RegisterButton
+            type="button"
+            onClick={() => navigate("/register")}
+          >
+            회원가입
+          </RegisterButton>
+        </Form>
+      </Container>
+    )
+  }
 
-  return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
+  export default LoginForm;
 
-        <Logo>MySystem</Logo>
-
-        <Title>로그인</Title>
-
-        <Description>
-          계정에 로그인하여 서비스를 이용하세요.
-        </Description>
-
-        <InputGroup>
-          <Label>아이디</Label>
-
-          <Input
-            type="text"
-            name="username"
-            value={user.username}
-            onChange={handleChange}
-            placeholder="아이디 입력"
-          />
-        </InputGroup>
-
-        <InputGroup>
-          <Label>비밀번호</Label>
-
-          <Input
-            type="password"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-            placeholder="비밀번호 입력"
-          />
-        </InputGroup>
-
-        <LoginButton>
-          로그인
-        </LoginButton>
-
-        <Divider />
-
-        <RegisterButton
-          type="button"
-          onClick={() => navigate("/register")}
-        >
-          회원가입
-        </RegisterButton>
-
-      </Form>
-    </Container>
-  )
-}
-
-export default LoginForm;
-
-
-const Container = styled.div`
+  const Container = styled.div`
   width: 100%;
   min-height: 100vh;
 
@@ -109,7 +105,7 @@ const Container = styled.div`
   padding: 20px;
 `
 
-const Form = styled.form`
+  const Form = styled.form`
   width: 100%;
   max-width: 420px;
 
@@ -127,7 +123,7 @@ const Form = styled.form`
   flex-direction: column;
 `
 
-const Logo = styled.div`
+  const Logo = styled.div`
   font-size: 30px;
   font-weight: 800;
   color: #2563eb;
@@ -137,7 +133,7 @@ const Logo = styled.div`
   margin-bottom: 12px;
 `
 
-const Title = styled.h2`
+  const Title = styled.h2`
   text-align: center;
 
   font-size: 28px;
@@ -146,7 +142,7 @@ const Title = styled.h2`
   margin-bottom: 10px;
 `
 
-const Description = styled.p`
+  const Description = styled.p`
   text-align: center;
 
   color: #64748b;
@@ -155,14 +151,14 @@ const Description = styled.p`
   margin-bottom: 32px;
 `
 
-const InputGroup = styled.div`
+  const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
 
   margin-bottom: 20px;
 `
 
-const Label = styled.label`
+  const Label = styled.label`
   font-size: 14px;
   font-weight: 600;
 
@@ -171,7 +167,7 @@ const Label = styled.label`
   margin-bottom: 8px;
 `
 
-const Input = styled.input`
+  const Input = styled.input`
   width: 100%;
 
   padding: 14px 16px;
@@ -193,7 +189,7 @@ const Input = styled.input`
   }
 `
 
-const BaseButton = styled.button`
+  const BaseButton = styled.button`
   width: 100%;
 
   border: none;
@@ -209,7 +205,7 @@ const BaseButton = styled.button`
   transition: 0.2s;
 `
 
-const LoginButton = styled(BaseButton)`
+  const LoginButton = styled(BaseButton)`
   background: #2563eb;
   color: white;
 
@@ -221,7 +217,7 @@ const LoginButton = styled(BaseButton)`
   }
 `
 
-const Divider = styled.div`
+  const Divider = styled.div`
   width: 100%;
   height: 1px;
 
@@ -230,7 +226,7 @@ const Divider = styled.div`
   margin: 24px 0;
 `
 
-const RegisterButton = styled(BaseButton)`
+  const RegisterButton = styled(BaseButton)`
   background: #eff6ff;
   color: #2563eb;
 
