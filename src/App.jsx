@@ -8,10 +8,7 @@ import HeaderBar from './no2_components/layout/HeaderBar'
 import SiderBar from './no2_components/layout/SiderBar'
 import LoginPage from './no1_pages/user/LoginPage'
 import RegisterPage from './no1_pages/user/RegisterPage'
-import EmployeeProvider from './no0_context/EmployeeContext'
-import UserProvider from './no0_context/UserContext'
-import TodoProvider from './no0_context/TodoContext'
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 import store from './no3_store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -20,7 +17,6 @@ const queryclinent = new QueryClient();
 function App() {
   return (
     <BrowserRouter>
-      <Provider store={store}>
         <QueryClientProvider client={queryclinent}>
           <Container>
             <HeaderBar />
@@ -42,7 +38,6 @@ function App() {
             </BodyLayout>
           </Container>
         </QueryClientProvider>
-      </Provider>
     </BrowserRouter>
   )
 }
